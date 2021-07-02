@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="testNG Suite">
+   <test name="framework">
+      <classes>
+         <class name="driver.DriverScript">
+            <methods>
+               <invlude name="loasClasses"></invlude>
+               <invlude name="executeTests"></invlude>
+            </methods>
+         </class>
+      </classes>
+   </test>
+</suite>
