@@ -15,7 +15,7 @@ public class AppDependentMethods extends DriverScript implements ObjectLocators{
 	{
 		try {
 			oDriver.navigate().to(URL);
-			Thread.sleep(2000);
+			appInd.waitForElement(oDriver, objUserNameEdit, "Visible", "", 10);
 			if(appInd.compareValues(oDriver, oDriver.getTitle(), "actiTIME - Login", test))
 			{
 				return true;
@@ -43,7 +43,8 @@ public class AppDependentMethods extends DriverScript implements ObjectLocators{
 			strStatus+= appInd.setObject(oDriver, objPasswordEdit, passWord, test);
 			strStatus+= appInd.clickObject(oDriver, objLoginBtn, test);
 			
-			Thread.sleep(2000);
+			appInd.waitForElement(oDriver, objHomePageTitle, "Text", "Enter Time-Track", 10);
+			
 			strStatus+= appInd.verifyText(oDriver, objHomePageTitle, "Text", "Enter Time-Track", test);
 			
 			if(appInd.verifyOptionalElementExist(oDriver, objShortcutWindow, test)) {
@@ -76,8 +77,9 @@ public class AppDependentMethods extends DriverScript implements ObjectLocators{
 	{
 		String strStatus = null;
 		try {
-			strStatus+= appInd.clickObject(oDriver, objLogoutBtn, test);
-			Thread.sleep(2000);
+			appInd.waitForElement(oDriver, objLogoutBtn, "Clickable", "", 20);
+			strStatus+= appInd.jsClickObject(oDriver, objLogoutBtn, test);
+			appInd.waitForElement(oDriver, objLoginLogoImg, "Clickable", "", 20);
 			strStatus+= appInd.verifyText(oDriver, objLoginHeader, "Text", "Please identify yourself", test);
 			
 			if(strStatus.contains("false"))

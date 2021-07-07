@@ -6,12 +6,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
 import com.relevantcodes.extentreports.ExtentTest;
 import driver.DriverScript;
 
@@ -136,6 +140,72 @@ public class AppIndependentMethods extends DriverScript{
 			objEle = null;
 		}
 	}
+	
+	
+	
+	/***********************************************
+	 * Method Name		: jsClickObject()
+	 *
+	 ************************************************/
+	public boolean jsClickObject(WebDriver oDriver, By objBy, ExtentTest test)
+	{
+		List<WebElement> objEle = null;
+		JavascriptExecutor js = null;
+		try {
+			js = (JavascriptExecutor) oDriver;
+			objEle = oDriver.findElements(objBy);
+			if(objEle.size() > 0) {
+				reports.writeResult(oDriver, "Pass", "The element '"+String.valueOf(objBy)+"' was clicked successful", test);
+				js.executeScript("arguments[0].click();", objEle.get(0));
+				//objEle.get(0).click();
+				return true;
+			}else {
+				reports.writeResult(oDriver, "Fail", "Failed to find the element '"+String.valueOf(objBy)+"'", test);
+				return false;
+			}
+		}catch(Exception e)
+		{
+			reports.writeResult(oDriver, "Exception", "Exception in jsClickObject() method. "+ e, test);
+			return false;
+		}
+		finally {
+			objEle = null;
+		}
+	}
+	
+	
+	
+	
+	/***********************************************
+	 * Method Name		: jsClickObject()
+	 *
+	 ************************************************/
+	public boolean jsClickObject(WebDriver oDriver, String strObjectName, ExtentTest test)
+	{
+		List<WebElement> objEle = null;
+		JavascriptExecutor js = null;
+		try {
+			js = (JavascriptExecutor) oDriver;
+			objEle = oDriver.findElements(By.xpath(strObjectName));
+			if(objEle.size() > 0) {
+				reports.writeResult(oDriver, "Pass", "The element '"+strObjectName+"' was clicked successful", test);
+				js.executeScript("arguments[0].click();", objEle.get(0));
+				//objEle.get(0).click();
+				return true;
+			}else {
+				reports.writeResult(oDriver, "Fail", "Failed to find the element '"+strObjectName+"'", test);
+				return false;
+			}
+		}catch(Exception e)
+		{
+			reports.writeResult(oDriver, "Exception", "Exception in jsClickObject() method. "+ e, test);
+			return false;
+		}
+		finally {
+			objEle = null;
+		}
+	}
+	
 	
 	
 	
@@ -607,6 +677,98 @@ public class AppIndependentMethods extends DriverScript{
 		{
 			reports.writeResult(oDriver,"Exception", "Exception in closeBrowser() method. "+ e, test);
 			return false;
+		}
+	}
+	
+	
+	
+	
+	/********************************************************
+	 * Method Name		: waitForElement()
+	 * Purpose			:
+	 * 
+	 * 
+	 ********************************************************/
+	public boolean waitForElement(WebDriver oDriver, By objBy, String strWaitReason, String strExpectedVal, int timeout)
+	{
+		WebDriverWait oWait = null;
+		try {
+			oWait = new WebDriverWait(oDriver, timeout);
+			
+			switch(strWaitReason.toLowerCase())
+			{
+				case "text":
+					oWait.until(ExpectedConditions.textToBePresentInElementLocated(objBy, strExpectedVal));
+					break;
+				case "value":
+					oWait.until(ExpectedConditions.textToBePresentInElementValue(objBy, strExpectedVal));
+					break;
+				case "clickable":
+					oWait.until(ExpectedConditions.elementToBeClickable(objBy));
+					break;
+				case "visible":
+					oWait.until(ExpectedConditions.visibilityOfElementLocated(objBy));
+					break;
+				case "invisible":
+					oWait.until(ExpectedConditions.invisibilityOfElementLocated(objBy));
+					break;
+				default:
+					System.out.println("Invalid wait condition '"+strWaitReason+"' was provided");
+			}
+			return true;
+		}catch(Exception e)
+		{
+			System.out.println("Exception in waitForElement() method. " + e);
+			return false;
+		}
+		finally {
+			oWait = null;
+		}
+	}
+	
+	
+	
+	
+	/********************************************************
+	 * Method Name		: waitForElement()
+	 * Purpose			:
+	 * 
+	 * 
+	 ********************************************************/
+	public boolean waitForElement(WebDriver oDriver, String strObjectName, String strWaitReason, String strExpectedVal, int timeout)
+	{
+		WebDriverWait oWait = null;
+		try {
+			oWait = new WebDriverWait(oDriver, timeout);
+			
+			switch(strWaitReason.toLowerCase())
+			{
+				case "text":
+					oWait.until(ExpectedConditions.textToBePresentInElementLocated(By.xpath(strObjectName), strExpectedVal));
+					break;
+				case "value":
+					oWait.until(ExpectedConditions.textToBePresentInElementValue(By.xpath(strObjectName), strExpectedVal));
+					break;
+				case "clickable":
+					oWait.until(ExpectedConditions.elementToBeClickable(By.xpath(strObjectName)));
+					break;
+				case "visible":
+					oWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(strObjectName)));
+					break;
+				case "invisible":
+					oWait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(strObjectName)));
+					break;
+				default:
+					System.out.println("Invalid wait condition '"+strWaitReason+"' was provided");
+			}
+			return true;
+		}catch(Exception e)
+		{
+			System.out.println("Exception in waitForElement() method. " + e);
+			return false;
+		}
+		finally {
+			oWait = null;
 		}
 	}
 }
