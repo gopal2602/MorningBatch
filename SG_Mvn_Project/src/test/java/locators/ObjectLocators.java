@@ -20,4 +20,5 @@ public interface ObjectLocators {
 	final String objDeleteUserBtn = "//button[@id='userDataLightBox_deleteBtn']";
 	final String objLogoutBtn = "//a[@id='logoutLink']";
 	final String objLoginHeader = "//td[@id='headerContainer']";
+	final String objLoginLogoImg = "//img[contains(@src,'/timer.png')]";
 }

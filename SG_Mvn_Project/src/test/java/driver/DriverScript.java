@@ -1,13 +1,10 @@
 package driver;
 
 import java.lang.reflect.Method;
-
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
-
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
-
 import methods.AppDependentMethods;
 import methods.AppIndependentMethods;
 import methods.Datatable;
